@@ -21,13 +21,12 @@ public class Edge {
 //        node = new gui.Node();
     }
 
-    public Edge(Node node1, Node node2, int weight) {
+    public Edge(Node node1, Node node2) {
         x1 = node1.getX() + 15;
         y1 = node1.getY() + 15;
 
         x2 = node2.getX() + 15;
         y2 = node2.getY() + 15;
-        this.weight = weight;
 
     }
     public void setNode1(Node node1) {

@@ -7,12 +7,12 @@ public class Node {
     private int y;
     private Color color;
     public Node() {
-        color = parseColor("#FF8585");
+        color = parseColor("#CC99FF");
         x = 0;
         y = 0;
     }
     public Node(int x, int y) {
-        this.color = parseColor("#FF8585");
+        this.color = parseColor("#CC99FF");
         this.x = x;
         this.y = y;
     }

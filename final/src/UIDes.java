@@ -97,7 +97,7 @@ public class UIDes extends JFrame {
     public void nodeDefaultColor() {
         for (int i = 0; i < listNode.getSize(); i++) {
             Node a = listNode.getNode(i);
-           a.setColor(Node.parseColor("#FF8585"));
+           a.setColor(Node.parseColor("#CC99FF"));
         }
     }
 
@@ -149,7 +149,7 @@ public class UIDes extends JFrame {
 
                 if ( ((x <= z1 + 15) && (x >= z1 - 15))
                         && ((y <= z2 + 15) && (y >= z2 - 15)) ) {
-                    listNode.getNode(i).setColor(Node.parseColor("#33FF55"));
+                    listNode.getNode(i).setColor(Node.parseColor("#9C27B0"));
                     repaint();
 
                     if (edge.hasA()) {
