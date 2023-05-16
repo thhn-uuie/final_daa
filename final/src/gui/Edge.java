@@ -18,7 +18,6 @@ public class Edge {
         y1 = 0;
         x2 = 0;
         y2 = 0;
-        weight = Integer.MAX_VALUE;
 //        node = new gui.Node();
     }
 
@@ -60,11 +59,16 @@ public class Edge {
     }
 
     public void draw(Graphics graphics) {
-        int midPointX = (x1 + x2) / 2;
-        int midPointY = (y1 + y2) / 2;
+        int midPointX = (x1 + x2) / 2 ;
+        int midPointY = (y1 + y2) / 2 ;
+
+        Font font = new Font("Arial", Font.BOLD, 14);
+        graphics.setFont(font);
         graphics.setColor(Color.BLACK);
-        graphics.drawString(Integer.toString(weight), midPointX, midPointY - 4);
-        graphics.setColor(parseColor("#555555"));
+
+        graphics.drawString(Integer.toString(weight), midPointX, midPointY);
+        graphics.setColor(Color.BLACK);
+
         ((Graphics2D) graphics).setStroke(new BasicStroke(1.5f));
         graphics.drawLine(x1, y1, x2, y2);
     }
@@ -113,21 +117,40 @@ public class Edge {
             b = y + i;
 
             if (this.equal(a, b)) return true;
+
             a = x;
             b = y - i;
-            if(this.equal(a,b)) return true;
-            a=x-i;b=y;
-            if(this.equal(a,b)) return true;
-            a=x+i;b=y;
-            if(this.equal(a,b)) return true;
-            a=x+i;b=y+i;
-            if(this.equal(a,b)) return true;
-            a=x-i;b=y-i;
-            if(this.equal(a,b)) return true;
-            a=x+i;b=y-i;
-            if(this.equal(a,b)) return true;
-            a=x-i;b=y+i;
-            if(this.equal(a,b)) return true;
+
+            if (this.equal(a,b)) return true;
+
+            a = x - i;
+            b = y;
+
+            if (this.equal(a,b)) return true;
+
+            a = x + i;
+            b = y;
+
+            if (this.equal(a,b)) return true;
+
+            a = x + i;
+            b = y + i;
+
+            if (this.equal(a,b)) return true;
+
+            a = x - i;
+            b = y - i;
+
+            if (this.equal(a,b)) return true;
+
+            a = x + i;
+            b = y - i;
+
+            if (this.equal(a,b)) return true;
+            a = x - i;
+            b = y + i;
+
+            if (this.equal(a,b)) return true;
         }
         if (i >= 10) {
             return false;

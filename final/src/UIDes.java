@@ -18,7 +18,6 @@ public class UIDes extends JFrame {
     private JRadioButton button_AddNode;
 
     private JRadioButton button_AddEdge;
-    private JButton button_Run;
     private JButton button_randomGraph;
     private JScrollPane panel_show;
     private JPanel panel;
@@ -53,12 +52,16 @@ public class UIDes extends JFrame {
 
     public void paint(Graphics graphics) {
         super.paint(graphics);
+
+        // vẽ đỉnh
         if (listNode.getSize() > 0) {
             for (int i = 0; i < listNode.getSize(); i++) {
-                listNode.getNode(i).draw(graphics, i);
+                listNode.getNode(i).draw(graphics);
+                listNode.getNode(i).insertString(graphics, i);
             }
         }
 
+        // vẽ cạnh
         if (listEdge.getSize() > 0) {
             for (int i = 0; i < listEdge.getSize(); i++) {
                 listEdge.getEdge(i).draw(graphics);
@@ -72,7 +75,7 @@ public class UIDes extends JFrame {
         buttonGroup.add(button_AddNode);
         buttonGroup.add(button_AddEdge);
 
-        // radio button to add gui.Node
+        // button để thêm đỉnh
         button_AddNode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +84,7 @@ public class UIDes extends JFrame {
             }
         });
 
-        // radio button to add gui.Edge
+        // button để thêm cạnh
         button_AddEdge.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,7 +96,8 @@ public class UIDes extends JFrame {
 
     public void nodeDefaultColor() {
         for (int i = 0; i < listNode.getSize(); i++) {
-            listNode.getNode(i).setColor(Color.RED);
+            Node a = listNode.getNode(i);
+           a.setColor(Node.parseColor("#FF8585"));
         }
     }
 
@@ -118,7 +122,6 @@ public class UIDes extends JFrame {
 
             int y = e.getY() + 20;
 
-            node.setColor(Color.RED);
             node.setX(x);
             node.setY(y);
             listNode.addNode(node);
@@ -138,6 +141,7 @@ public class UIDes extends JFrame {
 
 
             for (i = 0; i < listNode.getSize(); i++) {
+
                 int z1 = listNode.getNode(i).getX();
 
                 int z2 = listNode.getNode(i).getY();
@@ -145,7 +149,7 @@ public class UIDes extends JFrame {
 
                 if ( ((x <= z1 + 15) && (x >= z1 - 15))
                         && ((y <= z2 + 15) && (y >= z2 - 15)) ) {
-                    listNode.getNode(i).setColor(Color.GREEN);
+                    listNode.getNode(i).setColor(Node.parseColor("#33FF55"));
                     repaint();
 
                     if (edge.hasA()) {

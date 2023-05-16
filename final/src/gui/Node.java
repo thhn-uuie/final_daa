@@ -7,12 +7,12 @@ public class Node {
     private int y;
     private Color color;
     public Node() {
-        this.color = color.RED;
+        color = parseColor("#FF8585");
         x = 0;
         y = 0;
     }
     public Node(int x, int y) {
-        this.color = color.RED;
+        this.color = parseColor("#FF8585");
         this.x = x;
         this.y = y;
     }
@@ -46,18 +46,20 @@ public class Node {
         }
         return false;
     }
-
-    public void draw(Graphics graphics, int i) {
-//        graphics.setColor(parseColor("#9C27B0"));
-//        graphics.fillOval(x, y, 32, 32);
-
-        graphics.setColor(parseColor("#E1BEE9"));
+    public void draw(Graphics graphics) {
+        graphics.setColor(color);
         graphics.fillOval(x, y, 30, 30);
+    }
+
+    public void insertString(Graphics graphics, int i) {
+        Font font = new Font("Arial", Font.BOLD, 14);
+        graphics.setFont(font);
 
         graphics.setColor(Color.BLACK);
         FontMetrics fm = graphics.getFontMetrics();
         double t_width = fm.getStringBounds(String.valueOf(i), graphics).getWidth();
-        graphics.drawString(String.valueOf(i), (int) (x - t_width / 2) +15, (y + fm.getMaxAscent() / 2) +15);
+        graphics.drawString(String.valueOf(i), (int) (x - t_width / 2) + 15, (y + fm.getMaxAscent() / 2) + 15);
+
     }
 
     public static Color parseColor(String colorStr) {
