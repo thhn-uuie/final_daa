@@ -42,9 +42,9 @@ public class DrawNode {
         isClicked = clicked;
     }
 
-    public void draw(Graphics graph) {
+    public void draw(Graphics graph, int i) {
         if (isClicked) {
-            graph.fillOval(x, y, 10, 10);
+            graph.fillOval(x, y, 30, 30);
             isClicked = false;
         }
     }

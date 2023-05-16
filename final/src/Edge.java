@@ -1,3 +1,4 @@
+import javax.sound.sampled.Line;
 import java.awt.*;
 
 public class Edge {
@@ -8,38 +9,44 @@ public class Edge {
     private int weight;
     Color color = Color.BLUE;
 
-    Node node;
+//    Node node;
 
     public Edge() {
         x1 = 0;
         y1 = 0;
         x2 = 0;
         y2 = 0;
-        weight = Integer.MIN_VALUE;
-        node = new Node();
+        weight = Integer.MAX_VALUE;
+//        node = new Node();
     }
 
     public Edge(Node node1, Node node2, int weight) {
-        x1 = node1.getX() + 10;
-        y1 = node1.getY() + 10;
+        x1 = node1.getX() + 15;
+        y1 = node1.getY() + 15;
 
-        x2 = node2.getX() + 10;
-        y2 = node2.getY() + 10;
+        x2 = node2.getX() + 15;
+        y2 = node2.getY() + 15;
         this.weight = weight;
 
     }
     public void setNode1(Node node1) {
-        x1 = node1.getX() + 10;
-        y1 = node1.getY() + 10;
+        x1 = node1.getX() + 15;
+        y1 = node1.getY() + 15;
     }
 
     public void setNode2(Node node2) {
-        x2 = node2.getX() + 10;
-        y2 = node2.getY() + 10;
+        x2 = node2.getX() + 15;
+        y2 = node2.getY() + 15;
     }
 
     public void setColor(Color color) {
         this.color = color;
+    }
+    public static Color parseColor(String colorStr) {
+        return new Color(
+                Integer.valueOf(colorStr.substring(1, 3), 16),
+                Integer.valueOf(colorStr.substring(3, 5), 16),
+                Integer.valueOf(colorStr.substring(5, 7), 16));
     }
 
     public int getWeight() {
@@ -54,8 +61,9 @@ public class Edge {
         int midPointX = (x1 + x2) / 2;
         int midPointY = (y1 + y2) / 2;
         graphics.setColor(Color.BLACK);
-        graphics.drawString(Integer.toString(weight), midPointX, midPointY);
-        graphics.setColor(color);
+        graphics.drawString(Integer.toString(weight), midPointX, midPointY - 4);
+        graphics.setColor(parseColor("#555555"));
+        ((Graphics2D) graphics).setStroke(new BasicStroke(1.5f));
         graphics.drawLine(x1, y1, x2, y2);
     }
     public Node getPoint1() {

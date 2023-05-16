@@ -50,7 +50,7 @@ public class UIDes extends JFrame {
         super.paint(graphics);
         if (listNode.getSize() > 0) {
             for (int i = 0; i < listNode.getSize(); i++) {
-                listNode.getNode(i).draw(graphics);
+                listNode.getNode(i).draw(graphics, i);
             }
         }
 
@@ -109,9 +109,9 @@ public class UIDes extends JFrame {
 
         public void mouseClicked(MouseEvent e) {
             Node node = new Node();
-            int x = e.getX() + 200;
+            int x = e.getX() + 185;
 
-            int y = e.getY() + 25;
+            int y = e.getY() + 20;
 
             node.setColor(Color.RED);
             node.setX(x);
@@ -127,9 +127,9 @@ public class UIDes extends JFrame {
         }
         public void mouseClicked(MouseEvent e) {
             Node nodes = new Node();
-            int x = e.getX() + 200;
+            int x = e.getX() + 185;
 
-            int y = e.getY() + 25;
+            int y = e.getY() + 20;
 
 
             for (i = 0; i < listNode.getSize(); i++) {
@@ -138,8 +138,8 @@ public class UIDes extends JFrame {
                 int z2 = listNode.getNode(i).getY();
 
 
-                if ( ((x <= z1 + 20) && (x >= z1 - 10))
-                        && ((y <= z2 + 10) && (y >= z2 - 10)) ) {
+                if ( ((x <= z1 + 15) && (x >= z1 - 15))
+                        && ((y <= z2 + 15) && (y >= z2 - 15)) ) {
                     listNode.getNode(i).setColor(Color.GREEN);
                     repaint();
 
