@@ -1,3 +1,5 @@
+package gui;
+
 import javax.sound.sampled.Line;
 import java.awt.*;
 
@@ -9,7 +11,7 @@ public class Edge {
     private int weight;
     Color color = Color.BLUE;
 
-//    Node node;
+//    gui.Node node;
 
     public Edge() {
         x1 = 0;
@@ -17,7 +19,7 @@ public class Edge {
         x2 = 0;
         y2 = 0;
         weight = Integer.MAX_VALUE;
-//        node = new Node();
+//        node = new gui.Node();
     }
 
     public Edge(Node node1, Node node2, int weight) {

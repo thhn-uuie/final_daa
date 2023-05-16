@@ -1,3 +1,8 @@
+import gui.Edge;
+import gui.EdgeList;
+import gui.Node;
+import gui.NodeList;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -67,7 +72,7 @@ public class UIDes extends JFrame {
         buttonGroup.add(button_AddNode);
         buttonGroup.add(button_AddEdge);
 
-        // radio button to add Node
+        // radio button to add gui.Node
         button_AddNode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,7 +81,7 @@ public class UIDes extends JFrame {
             }
         });
 
-        // radio button to add Edge
+        // radio button to add gui.Edge
         button_AddEdge.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
