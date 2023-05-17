@@ -1,6 +1,5 @@
 package gui;
 
-import javax.sound.sampled.Line;
 import java.awt.*;
 
 public class Edge {
@@ -9,7 +8,8 @@ public class Edge {
     private int x2;
     private int y2;
     private int weight;
-    Color color = Color.BLUE;
+    Node node;
+    Color color = Color.black;
 
 //    gui.Node node;
 
@@ -18,7 +18,7 @@ public class Edge {
         y1 = 0;
         x2 = 0;
         y2 = 0;
-//        node = new gui.Node();
+        node = new Node();
     }
 
     public Edge(Node node1, Node node2) {
@@ -27,7 +27,6 @@ public class Edge {
 
         x2 = node2.getX() + 15;
         y2 = node2.getY() + 15;
-
     }
     public void setNode1(Node node1) {
         x1 = node1.getX() + 15;
@@ -66,12 +65,12 @@ public class Edge {
         graphics.setColor(Color.BLACK);
 
         graphics.drawString(Integer.toString(weight), midPointX, midPointY);
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(color);
 
         ((Graphics2D) graphics).setStroke(new BasicStroke(1.5f));
         graphics.drawLine(x1, y1, x2, y2);
     }
-    public Node getPoint1() {
+    public Node getNode1() {
         Node node1 = new Node(x1, y1);
         return node1;
     }

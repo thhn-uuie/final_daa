@@ -71,17 +71,6 @@
           <text value="DFS"/>
         </properties>
       </component>
-      <component id="e70af" class="javax.swing.JButton" binding="btDijkstra">
-        <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="2" use-parent-layout="false">
-            <preferred-size width="150" height="30"/>
-          </grid>
-        </constraints>
-        <properties>
-          <foreground color="-4514272"/>
-          <text value="Dijkstra"/>
-        </properties>
-      </component>
       <component id="82a8f" class="javax.swing.JButton" binding="btBellmanFord">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="2" use-parent-layout="false">
@@ -91,6 +80,14 @@
         <properties>
           <foreground color="-4514272"/>
           <text value="Bellman Ford"/>
+        </properties>
+      </component>
+      <component id="6265" class="javax.swing.JButton" binding="btDijkstra">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Dijkstra"/>
         </properties>
       </component>
     </children>
