@@ -124,11 +124,6 @@ public class UIDes extends JFrame {
         }
     }
 
-    public void removeMouseAdapters() {
-        panel.removeMouseListener(clickNode);
-        panel.removeMouseListener(clickEdge);
-        panel.removeMouseListener(cl);
-    }
     protected class ClickListenerNode extends MouseAdapter {
         ClickListenerNode() {
             super();
@@ -269,14 +264,14 @@ public class UIDes extends JFrame {
             }
         }
 
-        private Node getMinimum(Set<Node> dots) {
+        private Node getMinimum(Set<Node> nodes) {
             Node minimum=null;
-            for(Node dot:dots) {
+            for(Node node:nodes) {
                 if(minimum==null) {
-                    minimum=dot;
+                    minimum=node;
                 }else{
-                    if(this.getShortestDistance(dot)<this.getShortestDistance(minimum)) {
-                        minimum=dot;
+                    if(this.getShortestDistance(node)<this.getShortestDistance(minimum)) {
+                        minimum=node;
                     }
                 }
             }
@@ -409,8 +404,14 @@ public class UIDes extends JFrame {
 
                 int i;
                 for(i=0;i<path.size();i++) {
-                    int index=this.getIndexOf(new Edge(path.get(i),path.get(i+1)));
-                    listEdge.getEdge(index).setColor(Color.RED);
+                    try {
+                        int index=this.getIndexOf(new Edge(path.get(i),path.get(i+1)));
+                        listEdge.getEdge(index).setColor(Color.RED);
+
+                    }
+                    catch(IndexOutOfBoundsException e){
+
+                    }
                 }
                 repaint();
             }
