@@ -398,7 +398,9 @@ public class UIDes extends JFrame {
                 while(prevNodes.get(start)!=null) {
                     path.add(prevNodes.get(start));
                     start=prevNodes.get(start);
+                    start.setColor(Node.parseColor("#9C27B0"));
                 }
+                node2.setColor(Node.parseColor("#9C27B0"));
                 //reverse the linklist
                 Collections.reverse(path);
 
