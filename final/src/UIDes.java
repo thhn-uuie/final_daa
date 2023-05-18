@@ -31,7 +31,8 @@ public class UIDes extends JFrame {
 
     ClickListenerNode clickNode = new ClickListenerNode();
     ClickListenerEdge clickEdge = new ClickListenerEdge();
-    ClickListener1 cl =new ClickListener1();
+    ClickListener1 cl1 =new ClickListener1();
+//    ClickListener4 cl4 =new ClickListener4();
     public UIDes() {
         setFrame();
     }
@@ -76,13 +77,14 @@ public class UIDes extends JFrame {
         buttonGroup.add(button_AddNode);
         buttonGroup.add(button_AddEdge);
         buttonGroup.add(btDijkstra);
+        buttonGroup.add(button_randomGraph);
 
         // button để thêm đỉnh
         button_AddNode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panel.removeMouseListener(clickEdge);
-                panel.removeMouseListener(cl);
+                panel.removeMouseListener(cl1);
                 panel.addMouseListener(clickNode);
             }
         });
@@ -93,7 +95,7 @@ public class UIDes extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 panel.removeMouseListener(clickNode);
                 panel.addMouseListener(clickEdge);
-                panel.removeMouseListener(cl);
+                panel.removeMouseListener(cl1);
             }
         });
         btDijkstra.addActionListener(new ActionListener() {
@@ -105,7 +107,58 @@ public class UIDes extends JFrame {
 
                 panel.removeMouseListener(clickNode);
                 panel.removeMouseListener(clickEdge);
-                panel.addMouseListener(cl);
+                panel.addMouseListener(cl1);
+
+            }
+        });
+        button_randomGraph.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                edgeDefaultColor();
+
+                node1=new Node();
+                node2=new Node();
+
+                panel.removeMouseListener(clickNode);
+                panel.removeMouseListener(clickEdge);
+                panel.removeMouseListener(cl1);
+
+                Random rand = new Random();
+                String userInput = JOptionPane.showInputDialog("Nhập vào số đỉnh của đồ thị:");
+                int number = Integer.parseInt(userInput);
+                int size = number;
+                for (int i = 0; i < size; i++){
+                    Node node = new Node();
+                    int x = rand.nextInt(panel.getSize().width-30) + 185;
+                    int y = rand.nextInt(panel.getSize().height-20) + 20;
+                    node.setX(x);
+                    node.setY(y);
+                    listNode.addNode(node);
+                    repaint();
+                }
+
+                listEdge=new EdgeList();
+
+                for(int i=0;i<size;i++) {
+                    for(int j=i+1;j<size;j++) {
+//                        if (size < 10){
+//                            int weight = rand.nextInt(50) ;
+//                            edge = new Edge(listNode.getNode(i),listNode.getNode(j));
+//                            listEdge.addEdge(edge);
+//                            edge.setWeight(weight);
+//                            repaint();
+//                        }else{
+                            int weight = rand.nextInt(101) - 50;
+                            if(weight > 0){
+                                edge = new Edge(listNode.getNode(i),listNode.getNode(j));
+                                listEdge.addEdge(edge);
+                                edge.setWeight(weight);
+                                repaint();
+                            }
+//                        }
+
+
+                    }
+                }
 
             }
         });
@@ -323,10 +376,6 @@ public class UIDes extends JFrame {
             }
 
             return temp;
-        }
-
-        public Map<Node, Node> getPrev(){
-            return this.prevNodes;
         }
 
         public boolean checkNeighbour(Edge e) {
