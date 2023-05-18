@@ -140,21 +140,21 @@ public class UIDes extends JFrame {
 
                 for(int i=0;i<size;i++) {
                     for(int j=i+1;j<size;j++) {
-//                        if (size < 10){
-//                            int weight = rand.nextInt(50) ;
-//                            edge = new Edge(listNode.getNode(i),listNode.getNode(j));
-//                            listEdge.addEdge(edge);
-//                            edge.setWeight(weight);
-//                            repaint();
-//                        }else{
-                            int weight = rand.nextInt(101) - 50;
+                        if (size < 10){
+                            int weight = rand.nextInt(50) ;
+                            edge = new Edge(listNode.getNode(i),listNode.getNode(j));
+                            listEdge.addEdge(edge);
+                            edge.setWeight(weight);
+                            repaint();
+                        }else{
+                            int weight = rand.nextInt(200) - 150;
                             if(weight > 0){
                                 edge = new Edge(listNode.getNode(i),listNode.getNode(j));
                                 listEdge.addEdge(edge);
                                 edge.setWeight(weight);
                                 repaint();
                             }
-//                        }
+                        }
 
 
                     }
