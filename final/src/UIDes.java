@@ -122,6 +122,7 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickEdge);
                 panel.removeMouseListener(cl1);
 
+                listNode = new NodeList<>();
                 Random rand = new Random();
                 String userInput = JOptionPane.showInputDialog("Nhập vào số đỉnh của đồ thị:");
                 int number = Integer.parseInt(userInput);
@@ -137,11 +138,10 @@ public class UIDes extends JFrame {
                 }
 
                 listEdge=new EdgeList();
-
                 for(int i=0;i<size;i++) {
                     for(int j=i+1;j<size;j++) {
                         if (size < 10){
-                            int weight = rand.nextInt(50) ;
+                            int weight = rand.nextInt(100) ;
                             edge = new Edge(listNode.getNode(i),listNode.getNode(j));
                             listEdge.addEdge(edge);
                             edge.setWeight(weight);
