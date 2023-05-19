@@ -1,7 +1,9 @@
+import java.util.*;
+
 public class BellmanFord {
-    private Graph graph;
-    public static void bellmanFord(Graph graph, int source) {
+    public List<Integer> bellmanFord(Graph graph, int source, int end) {
         int[] dist = new int[graph.getVertices()];
+        Map<Integer, Integer> prev = new HashMap<>();
         for (int i = 0; i < graph.getVertices(); i++) {
             dist[i] = Integer.MAX_VALUE;
         }
@@ -14,19 +16,31 @@ public class BellmanFord {
                     if (graph.edge(u, v) != 0 && dist[u] != Integer.MAX_VALUE
                             && dist[u] + graph.edge(u,v) < dist[v]) {
                         dist[v] = dist[u] + graph.edge(u, v);
+                        prev.put(v, u);
                     }
                 }
             }
         }
 
-        for (int i = 0; i < graph.getVertices(); i++) {
-            if (dist[i] == Integer.MAX_VALUE) {
-                System.out.println("Vertex " + i + " is unreachable from source");
-            } else {
-                System.out.println("Shortest distance from source to vertex " + i + " is " + dist[i]);
+
+        System.out.print("Đường đi ngắn nhất từ " + source + " đến " + end + " là: ");
+        if (dist[end] == Integer.MAX_VALUE) {
+            System.out.println("Không tồn tại đường đi.");
+        } else {
+            List<Integer> path = new ArrayList<>();
+            int node = end;
+            while (node != source) {
+                path.add(node);
+                node = prev.get(node);
             }
+            path.add(source);
+            Collections.reverse(path);
+            System.out.println(path + ", với chi phí " + dist[end]);
+            return path;
         }
+        return null;
     }
+
 
     public static void main(String[] args) {
         Graph g = new Graph(5);
@@ -38,6 +52,8 @@ public class BellmanFord {
                 {0, 0, 0, -3, 0}
         };
         g.setGraph_matrix(graph);
-        bellmanFord(g, 0);
+        BellmanFord gr = new BellmanFord();
+        List<Integer> s = gr.bellmanFord(g, 0, 2);
+        System.out.println(s);
     }
 }

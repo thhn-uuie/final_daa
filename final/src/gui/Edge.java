@@ -22,21 +22,22 @@ public class Edge {
     }
 
     public Edge(Node node1, Node node2) {
-        x1 = node1.getX() + 15;
-        y1 = node1.getY() + 15;
+        x1 = node1.getX() ;
+        y1 = node1.getY() ;
 
-        x2 = node2.getX() + 15;
-        y2 = node2.getY() + 15;
+        x2 = node2.getX() ;
+        y2 = node2.getY() ;
     }
     public void setNode1(Node node1) {
-        x1 = node1.getX() + 15;
-        y1 = node1.getY() + 15;
+        x1 = node1.getX() ;
+        y1 = node1.getY() ;
     }
 
     public void setNode2(Node node2) {
-        x2 = node2.getX() + 15;
-        y2 = node2.getY() + 15;
+        x2 = node2.getX() ;
+        y2 = node2.getY() ;
     }
+
 
     public void setColor(Color color) {
         this.color = color;
@@ -64,11 +65,11 @@ public class Edge {
         graphics.setFont(font);
         graphics.setColor(Color.BLACK);
 
-        graphics.drawString(Integer.toString(weight), midPointX, midPointY);
+        graphics.drawString(Integer.toString(weight), midPointX , midPointY + 4);
         graphics.setColor(color);
 
         ((Graphics2D) graphics).setStroke(new BasicStroke(1.5f));
-        graphics.drawLine(x1, y1, x2, y2);
+        graphics.drawLine(x1 + 15, y1 + 15, x2 + 15, y2 + 15);
     }
     public Node getNode1() {
         Node node1 = new Node(x1, y1);
@@ -96,6 +97,7 @@ public class Edge {
         return (this.equalsNode1(x, y) || this.equalsNode2(x, y));
     }
 
+
     public boolean equal(int x, int y) {
         int c = ( y - y1 ) * ( x2 - x2 );
         int d = ( y2 - y1 ) * ( x - x1 );
@@ -108,7 +110,7 @@ public class Edge {
         int i;
         int a;
         int b;
-        if(this.equal(x,y)) return true;
+        if (this.equal(x,y)) return true;
 
         for (i = 1; i <= 20; i++) {
             a = x;

@@ -1,10 +1,12 @@
 package gui;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Node {
     private int x;
     private int y;
+    private int number_vertex;
     private Color color;
     public Node() {
         color = parseColor("#CC99FF");
@@ -33,6 +35,10 @@ public class Node {
         this.y = y;
     }
 
+    public void setNode(Node u) {
+        this.x = u.getX();
+        this.y = u.getY();
+    }
     public String getColor() {
         return color.toString();
     }
@@ -51,6 +57,7 @@ public class Node {
         graphics.fillOval(x, y, 30, 30);
     }
 
+
     public void insertString(Graphics graphics, int i) {
         Font font = new Font("Arial", Font.BOLD, 14);
         graphics.setFont(font);
@@ -68,4 +75,9 @@ public class Node {
                 Integer.valueOf(colorStr.substring(3, 5), 16),
                 Integer.valueOf(colorStr.substring(5, 7), 16));
     }
+
+//    public String toString() {
+//        return "(" + x + ", " + y + ")";
+//    }
+
 }

@@ -24,4 +24,11 @@ public class EdgeList<Edge>{
     public int getSize() {
         return edgeArrayList.size();
     }
+    public ArrayList<Edge> toList() {
+        ArrayList<Edge> list = new ArrayList<>();
+        for (int i = 0; i < edgeArrayList.size(); i++) {
+            list.add(edgeArrayList.get(i));
+        }
+        return list;
+    }
 }
