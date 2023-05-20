@@ -404,6 +404,7 @@ public class UIDes extends JFrame {
                     for (Map.Entry<Node, Integer> entry : mapNode.entrySet()) {
                         if (entry.getValue() == prev.get(index)) {
                             path.add(entry.getKey());
+                            entry.getKey().setColor(Node.parseColor("#9C27B0"));
                         }
                     }
                 }
@@ -653,7 +654,7 @@ public class UIDes extends JFrame {
                 Collections.reverse(path);
 
                 int i;
-                for(i=0;i<path.size();i++) {
+                for(i=0;i<path.size()-1;i++) {
                     int index=this.getIndexOf(new Edge(path.get(i),path.get(i+1)));
                     listEdge.getEdge(index).setColor(Color.RED);
                 }
