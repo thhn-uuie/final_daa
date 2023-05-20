@@ -84,6 +84,7 @@ public class UIDes extends JFrame {
         buttonGroup.add(button_AddEdge);
         buttonGroup.add(btDijkstra);
         buttonGroup.add(button_randomGraph);
+        buttonGroup.add(btBellmanFord);
 
         // button để thêm đỉnh
         button_AddNode.addActionListener(new ActionListener() {
@@ -92,6 +93,7 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
                 panel.addMouseListener(clickNode);
+                panel.removeMouseListener(clickBF);
             }
         });
 
@@ -102,6 +104,7 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickNode);
                 panel.addMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
+                panel.removeMouseListener(clickBF);
             }
         });
 
@@ -116,6 +119,7 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickNode);
                 panel.removeMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
+                panel.removeMouseListener(clickBF);
 
                 listNode = new NodeList<>();
                 Random rand = new Random();
@@ -166,6 +170,7 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickNode);
                 panel.removeMouseListener(clickEdge);
                 panel.addMouseListener(cl);
+                panel.removeMouseListener(clickBF);
 
             }
         });
@@ -222,7 +227,7 @@ public class UIDes extends JFrame {
         }
     }
 
-    /* ------- Click chuột vào 2 node để thêm 1 cạnh có trọng số ưeight ------- */
+    /* ------- Click chuột vào 2 node để thêm 1 cạnh có trọng số weight ------- */
     protected class ClickListenerEdge extends MouseAdapter {
         int i = 0;
         ClickListenerEdge() {
@@ -572,10 +577,6 @@ public class UIDes extends JFrame {
             return temp;
         }
 
-        public Map<Node, Node> getPrev(){
-            return this.prevNodes;
-        }
-
         public boolean checkNeighbour(Edge e) {
             int x1,x2,y1,y2,a,b,c,d;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
             boolean check=false;
@@ -645,7 +646,9 @@ public class UIDes extends JFrame {
                 while(prevNodes.get(start)!=null) {
                     path.add(prevNodes.get(start));
                     start=prevNodes.get(start);
+                    start.setColor(Node.parseColor("#9C27B0"));
                 }
+                node2.setColor(Node.parseColor("#9C27B0"));
                 //reverse the linklist
                 Collections.reverse(path);
 
