@@ -138,6 +138,8 @@ public class UIDes extends JFrame {
                 Random rand = new Random();
                 String userInput = JOptionPane.showInputDialog("Nhập vào số đỉnh của đồ thị:");
                 int size = Integer.parseInt(userInput);
+                Map<Node, Integer> mapNodeRandom = new HashMap<>();
+
                 for (int i = 0; i < size; i++) {
                     Node node = new Node();
                     int x = rand.nextInt(panel.getSize().width - 30) + 185;
@@ -145,15 +147,18 @@ public class UIDes extends JFrame {
                     node.setX(x);
                     node.setY(y);
                     listNode.addNode(node);
-                    //c++;
-                    mapNode.put(node, i);
-                    for (Map.Entry<Node, Integer> entry : mapNode.entrySet()) {
+
+
+                    mapNodeRandom.put(node, i);
+                    
+                    for (Map.Entry<Node, Integer> entry : mapNodeRandom.entrySet()) {
                         System.out.println(("( "+entry.getKey().getX() + ", " +
                                 entry.getKey().getY() + " ) ; " + entry.getValue()));
                     }
-                    System.out.println("size map = " + mapNode.size());
+                    System.out.println("size map = " + mapNodeRandom.size());
                     repaint();
                 }
+                mapNode = mapNodeRandom;
 
                 listEdge = new EdgeList();
 
@@ -486,7 +491,6 @@ public class UIDes extends JFrame {
                 }
 
                 // prev lưu các đỉnh trên đường đi nhỏ nhất
-
                 List<Integer> prev = bf.bellmanFord(g, source, end);
 
                 // path để lưu các Node ứng với các đỉnh trong prev
@@ -501,12 +505,9 @@ public class UIDes extends JFrame {
                 }
 
 
-                System.out.println("d000000000000o" + path.size());
-
                 for (i = 0; i < path.size() - 1; i++) {
                     try {
                         int index = this.getIndexOfEdge(new Edge(path.get(i), path.get(i + 1)));
-                        System.out.println("do" + i + " " + (i + 1));
                         listEdge.getEdge(index).setColor(Color.RED);
                     } catch (IndexOutOfBoundsException ex) {
                     }
