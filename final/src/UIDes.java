@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.List;
 
 public class UIDes extends JFrame {
-    private JButton btDFS;
+    private JButton btBAB;
     private JButton btBellmanFord;
     private JPanel panelMain;
     private JRadioButton button_AddNode;
@@ -34,6 +34,7 @@ public class UIDes extends JFrame {
     ClickListenerEdge clickEdge = new ClickListenerEdge();
     ClickListener1 cl = new ClickListener1();
     ClickListenerBF clickBF = new ClickListenerBF();
+    ClickListenerBAB clickBAB = new ClickListenerBAB();
 
     Map<ArrayList<Node>, Integer> mapEdge = new HashMap<>();    // luu tru canh cua 2 node
     Map<Node, Integer> mapNode = new HashMap<>();   // luu cac node
@@ -86,6 +87,7 @@ public class UIDes extends JFrame {
         buttonGroup.add(btDijkstra);
         buttonGroup.add(button_randomGraph);
         buttonGroup.add(btBellmanFord);
+        buttonGroup.add(btBAB);
 
         // button để thêm đỉnh
         button_AddNode.addActionListener(new ActionListener() {
@@ -95,6 +97,8 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(cl);
                 panel.addMouseListener(clickNode);
                 panel.removeMouseListener(clickBF);
+                panel.removeMouseListener(clickBAB);
+
             }
         });
 
@@ -106,6 +110,7 @@ public class UIDes extends JFrame {
                 panel.addMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
                 panel.removeMouseListener(clickBF);
+                panel.removeMouseListener(clickBAB);
             }
         });
 
@@ -123,6 +128,8 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
                 panel.removeMouseListener(clickBF);
+                panel.removeMouseListener(clickBAB);
+
 
 
                 listNode = new NodeList<>();
@@ -223,6 +230,7 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickEdge);
                 panel.addMouseListener(cl);
                 panel.removeMouseListener(clickBF);
+                panel.removeMouseListener(clickBAB);
 
 
             }
@@ -242,6 +250,22 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(cl);
                 panel.addMouseListener(clickBF);
                 
+
+            }
+        });
+        btBAB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                edgeDefaultColor();
+
+                node1 = new Node();
+                node2 = new Node();
+
+                panel.removeMouseListener(clickNode);
+                panel.removeMouseListener(clickEdge);
+                panel.removeMouseListener(cl);
+                panel.removeMouseListener(clickBF);
+                panel.addMouseListener(clickBAB);
 
             }
         });
@@ -473,9 +497,12 @@ public class UIDes extends JFrame {
                 }
 
 
+                System.out.println("d000000000000o" + path.size());
+
                 for (i = 0; i < path.size() - 1; i++) {
                     try {
                         int index = this.getIndexOfEdge(new Edge(path.get(i), path.get(i + 1)));
+                        System.out.println("do" + i + " " + (i + 1));
                         listEdge.getEdge(index).setColor(Color.RED);
                     } catch (IndexOutOfBoundsException ex) {
                     }
@@ -510,7 +537,6 @@ public class UIDes extends JFrame {
 
     }
 
-    /* ------- Click chuột để tìm ra đường đi nhỏ nhất <Dijsktra> -------*/
     protected class ClickListener1 extends MouseAdapter {
         public ClickListener1() {
             super();
@@ -718,6 +744,207 @@ public class UIDes extends JFrame {
                 int i;
                 for (i = 0; i < path.size() - 1; i++) {
                     int index = this.getIndexOf(new Edge(path.get(i), path.get(i + 1)));
+                    listEdge.getEdge(index).setColor(Color.RED);
+                }
+                repaint();
+            }
+        }
+    }
+
+    /* ------- Click chuột để tìm ra đường đi nhỏ nhất <Dijsktra> -------*/
+    protected class ClickListenerBAB extends MouseAdapter {
+        public ClickListenerBAB() {
+            super();
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            edgeDefaultColor();
+            int x = e.getX() + 185;
+            int y = e.getY() + 20;
+            int i;
+            node2 = new Node();
+            for (i = 0; i < listNode.getSize(); i++) {
+                int z1 = listNode.getNode(i).getX();
+                int z2 = listNode.getNode(i).getY();
+
+                if (((x <= z1 + 15) && (x >= z1 - 15)) && ((y <= z2 + 15) && (y >= z2 - 15))) {
+
+                    if (node1.isEmpty()) {
+                        node1 = listNode.getNode(i);
+                        listNode.getNode(i).setColor(Node.parseColor("#9C27B0"));
+                    } else if (node2.isEmpty()) {
+                        node2 = listNode.getNode(i);
+                        listNode.getNode(i).setColor(Node.parseColor("#9C27B0"));
+                    }
+                    repaint();
+                    break;
+                }
+
+            }
+
+            //add the methods from BAB algorithm
+            if (!node1.isEmpty() && !node2.isEmpty()) {
+                BranchAndBound bb = new BranchAndBound();
+
+                //dj.getMinimalTree();
+                bb.getPath();
+            }
+        }
+    }
+
+    protected class BranchAndBound {
+        private NodeList<Node> nodes;
+        private EdgeList<Edge> edges;
+        private Set<Node> visitedNodes;
+
+        private LinkedList<Node> path;
+
+        private LinkedList<Node> bestPath;
+        private int bestCost;
+
+        private int cost = 0;
+
+        public BranchAndBound() {
+            this.nodes = listNode;
+            this.edges = listEdge;
+            this.visitedNodes = new HashSet<>();
+            visitedNodes.add(node1);
+            this.path = new LinkedList<>();
+            path.add(node1);
+            this.bestPath = new LinkedList<>();
+            this.bestCost = Integer.MAX_VALUE;
+        }
+
+        //        public LinkedList<Node> findShortestPath(Node start, Node end) {
+//            // Add start node to the path and visited nodes set
+//            for (int i = 0; i < unvisitedNodes.size(); i ++) {
+//
+//            }
+//        }
+        public void findShortestPath() {
+            if (path.getLast().equals(node2)) {
+                if (cost < bestCost) {
+                    bestCost = cost;
+                    bestPath = (LinkedList<Node>) path.clone();
+                }
+                return;
+            }
+            NodeList<Node> nei = getNeighbours(path.getLast());
+            for (int i = 0; i < nei.getSize(); i++) {
+                int cost1 = cost + getDistance(path.getLast(), nei.getNode(i));
+                if (cost1 < bestCost) {
+                    cost = cost1;
+                    path.add(nei.getNode(i));
+                    visitedNodes.add(nei.getNode(i));
+                    if (path.getLast().equals(node2)) {
+
+                        bestCost = cost;
+                        bestPath = (LinkedList<Node>) path.clone();
+                        Node remove = path.removeLast();
+                        visitedNodes.remove(remove);
+                        cost -= getDistance(path.getLast(), remove);
+                        continue;
+                    } else {
+                        findShortestPath();
+                    }
+                    Node remove = path.removeLast();
+                    visitedNodes.remove(remove);
+                    cost -= getDistance(path.getLast(), remove);
+                }
+            }
+
+        }
+
+
+        private int getDistance(Node node, Node target) {
+            int weight = 0;
+            Edge edge = new Edge(node, target);
+            int index = this.getIndexOf(edge);
+            if (index != -1)
+                weight = edges.getEdge(index).getWeight();
+            else {
+                throw new RuntimeException("no such edge");
+            }
+            return weight;
+        }
+
+        private NodeList<Node> getNeighbours(Node node) {
+            NodeList<Node> temp = new NodeList<>();
+            for (int i = 0; i < nodes.getSize(); i++) {
+                if (!visitedNodes.contains(nodes.getNode(i))) {
+                    if (this.checkNeighbour(new Edge(node, nodes.getNode(i))) == true) {
+                        temp.addNode(nodes.getNode(i));
+                    }
+                }
+
+            }
+
+            return temp;
+        }
+
+        public boolean checkNeighbour(Edge e) {
+            int x1, x2, y1, y2, a, b, c, d;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
+            boolean check = false;
+            x1 = e.getNode1().getX();
+            x2 = e.getNode2().getX();
+            y1 = e.getNode1().getY();
+            y2 = e.getNode2().getY();
+            for (int i = 0; i < edges.getSize(); i++) {
+                a = edges.getEdge(i).getNode1().getX();
+                b = edges.getEdge(i).getNode2().getX();
+                c = edges.getEdge(i).getNode1().getY();
+                d = edges.getEdge(i).getNode2().getY();
+                if (a == x1 && b == x2 && c == y1 && d == y2) {
+                    check = true;
+                    break;
+                }
+                if (a == x2 && b == x1 && c == y2 && d == y1) {
+                    check = true;
+                    break;
+                }
+            }
+            return check;
+        }
+
+        public int getIndexOf(Edge e) {
+            int x1, x2, y1, y2, a, b, c, d, index = -1;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
+            x1 = e.getNode1().getX();
+            x2 = e.getNode2().getX();
+            y1 = e.getNode1().getY();
+            y2 = e.getNode2().getY();
+            for (int i = 0; i < edges.getSize(); i++) {
+                a = edges.getEdge(i).getNode1().getX();
+                b = edges.getEdge(i).getNode2().getX();
+                c = edges.getEdge(i).getNode1().getY();
+                d = edges.getEdge(i).getNode2().getY();
+                if (a == x1 && b == x2 && c == y1 && d == y2) {
+                    index = i;
+                    break;
+                }
+                if (a == x2 && b == x1 && c == y2 && d == y1) {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
+        //get the shortest path from one node to another
+        public void getPath() {
+            findShortestPath();
+            for (int i = 0; i < bestPath.size(); i++) {
+                System.out.print(bestPath.get(i).getX());
+            }
+            System.out.print("BB" + bestCost);
+            nodeDefaultColor();
+            if (!node2.isEmpty()) {
+                node2.setColor(Node.parseColor("#9C27B0"));
+                for (int i = 0; i < bestPath.size() - 1; i++) {
+                    bestPath.get(i).setColor(Node.parseColor("#9C27B0"));
+                }
+
+                for (int i = 0; i < bestPath.size() - 1; i++) {
+                    int index = this.getIndexOf(new Edge(bestPath.get(i), bestPath.get(i + 1)));
                     listEdge.getEdge(index).setColor(Color.RED);
                 }
                 repaint();
