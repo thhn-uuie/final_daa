@@ -222,6 +222,7 @@ public class UIDes extends JFrame {
         btDijkstra.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 edgeDefaultColor();
+                nodeDefaultColor();
 
                 node1 = new Node();
                 node2 = new Node();
@@ -241,6 +242,7 @@ public class UIDes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 edgeDefaultColor();
+                nodeDefaultColor();
 
                 node1 = new Node();
                 node2 = new Node();
@@ -257,6 +259,7 @@ public class UIDes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 edgeDefaultColor();
+                nodeDefaultColor();
 
                 node1 = new Node();
                 node2 = new Node();
