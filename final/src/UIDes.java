@@ -486,6 +486,7 @@ public class UIDes extends JFrame {
                 }
 
                 // prev lưu các đỉnh trên đường đi nhỏ nhất
+
                 List<Integer> prev = bf.bellmanFord(g, source, end);
 
                 // path để lưu các Node ứng với các đỉnh trong prev

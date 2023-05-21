@@ -1,21 +1,19 @@
 import java.util.*;
 
 public class BellmanFord {
-
     public List<Integer> bellmanFord(Graph graph, int source, int end) {
         int[] dist = new int[graph.getVertices()];
         Map<Integer, Integer> prev = new HashMap<>();
         for (int i = 0; i < graph.getVertices(); i++) {
             dist[i] = Integer.MAX_VALUE;
         }
-
         dist[source] = 0;
 
         for (int i = 1; i < graph.getVertices(); i++) {
             for (int u = 0; u < graph.getVertices(); u++) {
                 for (int v = 0; v < graph.getVertices(); v++) {
                     if (graph.edge(u, v) != 0 && dist[u] != Integer.MAX_VALUE
-                            && dist[u] + graph.edge(u,v) < dist[v]) {
+                            && dist[u] + graph.edge(u, v) < dist[v]) {
                         dist[v] = dist[u] + graph.edge(u, v);
                         prev.put(v, u);
                     }
@@ -31,8 +29,6 @@ public class BellmanFord {
                 }
             }
         }
-
-
 
         System.out.print("Đường đi ngắn nhất từ " + source + " đến " + end + " là: ");
         if (dist[end] == Integer.MAX_VALUE) {
