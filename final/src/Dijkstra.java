@@ -21,26 +21,32 @@ public class Dijkstra {
         adj.get(u).add(new Node(v, w));
         adj.get(v).add(new Node(u, w));
     }
-    void dijkstra(int src){
+    int dijkstra(int src, int dest){
         PriorityQueue<Node> queue = new PriorityQueue<>(V, Comparator.comparingInt(o -> o.id));
+
         int[] dist = new int[V];
         Arrays.fill(dist, Integer.MAX_VALUE);
 
+        boolean[] visited = new boolean[V];
         queue.add(new Node(src, 0));
         dist[src] = 0;
 
         while (!queue.isEmpty()) {
             int u = queue.remove().id;
+            visited[u] = true;
 
+            if (u == dest && dist[u] != Integer.MAX_VALUE){
+                return dist[u];
+            }
             for (int i = 0; i < adj.get(u).size(); i++) {
                 Node v = adj.get(u).get(i);
-                if (dist[v.id] > dist[u] + v.distance) {
+                if (!visited[v.id] && dist[v.id] > dist[u] + v.distance) {
                     dist[v.id] = dist[u] + v.distance;
                     queue.add(new Node(v.id, dist[v.id]));
                 }
             }
         }
-        printShortPath(V, dist);
+        return -1;
     }
 
     public static void main(String[] args) {
@@ -54,7 +60,7 @@ public class Dijkstra {
         g.addEdge(2, 3, 2);
         g.addEdge(3, 4, 7);
 
-        g.dijkstra(0);
+        System.out.println("Shortest distance from " + 0 + " to vertex " + 3 + " is " + g.dijkstra(0, 3));
     }
     public static List<List<Node>> adjacencyList(int[][] matrix) {
         int n = matrix.length;
@@ -71,12 +77,6 @@ public class Dijkstra {
             }
         }
         return adj;
-    }
-
-    void printShortPath(int V, int[] dist){
-        for (int i = 0; i < V; i++) {
-            System.out.println("Shortest distance from source to vertex " + i + " is " + dist[i]);
-        }
     }
 }
 class Node {
