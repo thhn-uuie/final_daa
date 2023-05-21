@@ -82,7 +82,7 @@ public class Test {
                 count += size;
                 Dijkstra g = new Dijkstra(size, adj);
                 long startTime = System.nanoTime();
-                g.dijkstra(0);
+                g.dijkstra(0, size);
                 long endTime = System.nanoTime();
                 sum += (endTime - startTime);
             }
