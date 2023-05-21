@@ -32,12 +32,13 @@ public class UIDes extends JFrame {
 
     ClickListenerNode clickNode = new ClickListenerNode();
     ClickListenerEdge clickEdge = new ClickListenerEdge();
-    ClickListener1 cl =new ClickListener1();
+    ClickListener1 cl = new ClickListener1();
     ClickListenerBF clickBF = new ClickListenerBF();
-    Map<ArrayList<Node>, Integer> map = new HashMap<>();
-    Map<Node, Integer> mapNode = new HashMap<>();
 
-//    ClickListener4 cl4 =new ClickListener4();
+    Map<ArrayList<Node>, Integer> mapEdge = new HashMap<>();    // luu tru canh cua 2 node
+    Map<Node, Integer> mapNode = new HashMap<>();   // luu cac node
+
+    //    ClickListener4 cl4 =new ClickListener4();
     public UIDes() {
         setFrame();
     }
@@ -110,46 +111,97 @@ public class UIDes extends JFrame {
 
         // button để random đồ thị
         button_randomGraph.addActionListener(new ActionListener() {
+            int c = -1;
+
             public void actionPerformed(ActionEvent e) {
                 edgeDefaultColor();
 
-                node1=new Node();
-                node2=new Node();
+                node1 = new Node();
+                node2 = new Node();
 
                 panel.removeMouseListener(clickNode);
                 panel.removeMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
                 panel.removeMouseListener(clickBF);
 
+
                 listNode = new NodeList<>();
+                ArrayList<Integer> listVertex = new ArrayList<>();
+
                 Random rand = new Random();
                 String userInput = JOptionPane.showInputDialog("Nhập vào số đỉnh của đồ thị:");
                 int size = Integer.parseInt(userInput);
-                for (int i = 0; i < size; i++){
+                for (int i = 0; i < size; i++) {
                     Node node = new Node();
-                    int x = rand.nextInt(panel.getSize().width-30) + 185;
-                    int y = rand.nextInt(panel.getSize().height-20) + 20;
+                    int x = rand.nextInt(panel.getSize().width - 30) + 185;
+                    int y = rand.nextInt(panel.getSize().height - 20) + 20;
                     node.setX(x);
                     node.setY(y);
                     listNode.addNode(node);
+                    //c++;
+                    mapNode.put(node, i);
+                    for (Map.Entry<Node, Integer> entry : mapNode.entrySet()) {
+                        System.out.println(("( "+entry.getKey().getX() + ", " +
+                                entry.getKey().getY() + " ) ; " + entry.getValue()));
+                    }
+                    System.out.println("size map = " + mapNode.size());
                     repaint();
                 }
 
-                listEdge=new EdgeList();
-                for(int i=0;i<size;i++) {
-                    for(int j=i+1;j<size;j++) {
-                        if (size < 10){
-                            int weight = rand.nextInt(100) ;
-                            edge = new Edge(listNode.getNode(i),listNode.getNode(j));
+                listEdge = new EdgeList();
+
+
+                for (int i = 0; i < size; i++) {
+                    for (int j = i + 1; j < size; j++) {
+                        if (size < 10) {
+                            int weight = rand.nextInt(100);
+                            edge = new Edge(listNode.getNode(i), listNode.getNode(j));
+
+                            //listNode.getNode(i).setNode(nodes);
+                            listVertex.add(i);
+                            listVertex.add(j);
+
+                            NodeList listNodeMap = new NodeList();
+                            listNodeMap.addNode(edge.getNode1());
+                            listNodeMap.addNode(edge.getNode2());
+
                             listEdge.addEdge(edge);
                             edge.setWeight(weight);
+                            int i1 = 0;
+                            int j1 = 0;
+                            while (i1 < listVertex.size() && j1 < listEdge.getSize()) {
+                                mapEdge.put(listNodeMap.mapNode(listVertex.get(i1), listVertex.get(i1 + 1)), listEdge.getEdge(j1).getWeight());
+                                i1 = i1 + 2;
+                                j1 = j1 + 1;
+                            }
+                            for (Map.Entry<ArrayList<Node>, Integer> entry : mapEdge.entrySet()) {
+                                System.out.println("mapEdge = (" + entry.getKey() + ") ; " + entry.getValue());
+                            }
+                            System.out.println("size map edge = " + mapEdge.size());
                             repaint();
-                        }else{
+                        } else {
                             int weight = rand.nextInt(200) - 150;
-                            if(weight > 0){
-                                edge = new Edge(listNode.getNode(i),listNode.getNode(j));
+                            if (weight > 0) {
+                                edge = new Edge(listNode.getNode(i), listNode.getNode(j));
+                                listVertex.add(i);
+                                listVertex.add(j);
+                                NodeList listNodeMap = new NodeList();
+                                listNodeMap.addNode(edge.getNode1());
+                                listNodeMap.addNode(edge.getNode2());
                                 listEdge.addEdge(edge);
                                 edge.setWeight(weight);
+                                int i1 = 0;
+                                int j1 = 0;
+                                while (i1 < listVertex.size() && j1 < listEdge.getSize()) {
+                                    mapEdge.put(listNodeMap.mapNode(listVertex.get(i1), listVertex.get(i1 + 1)), listEdge.getEdge(j1).getWeight());
+                                    i1 = i1 + 2;
+                                    j1 = j1 + 1;
+                                }
+                                for (Map.Entry<ArrayList<Node>, Integer> entry : mapEdge.entrySet()) {
+                                    System.out.println("mapEdge = (" + entry.getKey() + ") ; " + entry.getValue());
+                                }
+                                System.out.println("size map edge = " + mapEdge.size());
+
                                 repaint();
                             }
                         }
@@ -164,13 +216,14 @@ public class UIDes extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 edgeDefaultColor();
 
-                node1=new Node();
-                node2=new Node();
+                node1 = new Node();
+                node2 = new Node();
 
                 panel.removeMouseListener(clickNode);
                 panel.removeMouseListener(clickEdge);
                 panel.addMouseListener(cl);
                 panel.removeMouseListener(clickBF);
+
 
             }
         });
@@ -188,6 +241,8 @@ public class UIDes extends JFrame {
                 panel.removeMouseListener(clickEdge);
                 panel.removeMouseListener(cl);
                 panel.addMouseListener(clickBF);
+                
+
             }
         });
     }
@@ -207,6 +262,7 @@ public class UIDes extends JFrame {
     }
 
     int count = -1;
+
     protected class ClickListenerNode extends MouseAdapter {
         ClickListenerNode() {
             super();
@@ -230,9 +286,11 @@ public class UIDes extends JFrame {
     /* ------- Click chuột vào 2 node để thêm 1 cạnh có trọng số weight ------- */
     protected class ClickListenerEdge extends MouseAdapter {
         int i = 0;
+
         ClickListenerEdge() {
             super();
         }
+
         public void mouseClicked(MouseEvent e) {
             Node nodes = new Node();
             int x = e.getX() + 185;
@@ -248,8 +306,8 @@ public class UIDes extends JFrame {
                 int z2 = listNode.getNode(i).getY();
 
 
-                if ( ((x <= z1 + 15) && (x >= z1 - 15))
-                        && ((y <= z2 + 15) && (y >= z2 - 15)) ) {
+                if (((x <= z1 + 15) && (x >= z1 - 15))
+                        && ((y <= z2 + 15) && (y >= z2 - 15))) {
                     listNode.getNode(i).setColor(Node.parseColor("#9C27B0"));
                     repaint();
 
@@ -288,14 +346,19 @@ public class UIDes extends JFrame {
                 int i1 = 0;
                 int j = 0;
                 while (i1 < listVertex.get(0).size() && j < listEdge.getSize()) {
-                    map.put(listNodeMap.mapNode(listVertex.get(0).get(i1), listVertex.get(0).get(i1 + 1)), listEdge.getEdge(j).getWeight());
+                    mapEdge.put(listNodeMap.mapNode(listVertex.get(0).get(i1), listVertex.get(0).get(i1 + 1)), listEdge.getEdge(j).getWeight());
                     i1 = i1 + 2;
                     j = j + 1;
                 }
-//
-//                for (Map.Entry<ArrayList<Node>, Integer> entry : map.entrySet()) {
-//                    System.out.println((entry.getKey() + "; " + entry.getValue()));
-//                }
+
+                for (Map.Entry<Node, Integer> entry : mapNode.entrySet()) {
+                    System.out.println("mapNode = (" + entry.getKey().getX()
+                            + ", " + entry.getKey().getY()
+                            + ") ; " + entry.getValue());
+                }
+                for (Map.Entry<ArrayList<Node>, Integer> entry : mapEdge.entrySet()) {
+                    System.out.println("mapEdge = (" + entry.getKey() + ") ; " + entry.getValue());
+                }
 
                 edge = new Edge();
                 nodeDefaultColor();
@@ -334,6 +397,7 @@ public class UIDes extends JFrame {
         }
         return matrix;
     }
+
     protected class ClickListenerBF extends MouseAdapter {
         public ClickListenerBF() {
             super();
@@ -362,7 +426,6 @@ public class UIDes extends JFrame {
                     break;
                 }
             }
-            int c = -1;
 
             // Sử dụng thuật toán Bellman Ford để tìm đường đi nhỏ nhất
             if (!node1.isEmpty() && !node2.isEmpty()) {
@@ -378,7 +441,7 @@ public class UIDes extends JFrame {
                 BellmanFord bf = new BellmanFord();
                 int vertices = listNode.getSize();
                 Graph g = new Graph(vertices);
-                int[][] graph = graph_matrix(map);
+                int[][] graph = graph_matrix(mapEdge);
                 System.out.println(Arrays.deepToString(graph));
                 g.setGraph_matrix(graph);
 
@@ -446,31 +509,30 @@ public class UIDes extends JFrame {
         }
 
     }
+
     /* ------- Click chuột để tìm ra đường đi nhỏ nhất <Dijsktra> -------*/
-    protected class ClickListener1 extends MouseAdapter
-    {
+    protected class ClickListener1 extends MouseAdapter {
         public ClickListener1() {
             super();
         }
 
         public void mouseClicked(MouseEvent e) {
             edgeDefaultColor();
-            int x=e.getX()+185;
-            int y=e.getY()+20;
+            int x = e.getX() + 185;
+            int y = e.getY() + 20;
             int i;
-            node2=new Node();
-            for(i=0; i< listNode.getSize(); i++) {
-                int z1= listNode.getNode(i).getX();
-                int z2= listNode.getNode(i).getY();
+            node2 = new Node();
+            for (i = 0; i < listNode.getSize(); i++) {
+                int z1 = listNode.getNode(i).getX();
+                int z2 = listNode.getNode(i).getY();
 
-                if(((x<=z1+15)&&(x>=z1-15))&&((y<=z2+15)&&(y>=z2-15))) {
+                if (((x <= z1 + 15) && (x >= z1 - 15)) && ((y <= z2 + 15) && (y >= z2 - 15))) {
 
-                    if(node1.isEmpty()) {
-                        node1= listNode.getNode(i);
+                    if (node1.isEmpty()) {
+                        node1 = listNode.getNode(i);
                         listNode.getNode(i).setColor(Node.parseColor("#9C27B0"));
-                    }
-                    else if(node2.isEmpty())
-                    {node2= listNode.getNode(i);
+                    } else if (node2.isEmpty()) {
+                        node2 = listNode.getNode(i);
                         listNode.getNode(i).setColor(Node.parseColor("#9C27B0"));
                     }
                     repaint();
@@ -480,16 +542,16 @@ public class UIDes extends JFrame {
             }
 
             //add the methods from dijkstras algorithm
-            if(!node1.isEmpty()&&!node2.isEmpty()){
-                Dijkstra dj=new Dijkstra();
+            if (!node1.isEmpty() && !node2.isEmpty()) {
+                Dijkstra dj = new Dijkstra();
                 dj.execute(node1);
                 //dj.getMinimalTree();
-                dj.getPath(node1,node2);
+                dj.getPath(node1, node2);
             }
         }
     }
 
-    protected class Dijkstra{
+    protected class Dijkstra {
         private NodeList<Node> nodes;
         private EdgeList<Edge> edges;
         private Set<Node> visitedNodes;
@@ -499,18 +561,18 @@ public class UIDes extends JFrame {
 
         public Dijkstra() {
             this.nodes = listNode;
-            this.edges= listEdge;
+            this.edges = listEdge;
         }
 
         public void execute(Node start) {
-            visitedNodes=new HashSet<>();
-            unvisitedNodes=new HashSet<>();
-            totalWeight=new HashMap<>();
-            prevNodes=new HashMap<>();
+            visitedNodes = new HashSet<>();
+            unvisitedNodes = new HashSet<>();
+            totalWeight = new HashMap<>();
+            prevNodes = new HashMap<>();
             this.totalWeight.put(start, 0);
             unvisitedNodes.add(start);
-            while(unvisitedNodes.size()>0) {
-                Node node=getMinimum(unvisitedNodes);
+            while (unvisitedNodes.size() > 0) {
+                Node node = getMinimum(unvisitedNodes);
                 visitedNodes.add(node);
                 unvisitedNodes.remove(node);
                 findMinimalWeights(node);
@@ -518,13 +580,13 @@ public class UIDes extends JFrame {
         }
 
         private Node getMinimum(Set<Node> dots) {
-            Node minimum=null;
-            for(Node dot:dots) {
-                if(minimum==null) {
-                    minimum=dot;
-                }else{
-                    if(this.getShortestDistance(dot)<this.getShortestDistance(minimum)) {
-                        minimum=dot;
+            Node minimum = null;
+            for (Node dot : dots) {
+                if (minimum == null) {
+                    minimum = dot;
+                } else {
+                    if (this.getShortestDistance(dot) < this.getShortestDistance(minimum)) {
+                        minimum = dot;
                     }
                 }
             }
@@ -532,23 +594,23 @@ public class UIDes extends JFrame {
         }
 
         public void findMinimalWeights(Node node) {
-            NodeList<Node> adjNodes=getNeighbours(node);
-            for(int i=0;i<adjNodes.getSize();i++) {
-                Node target=adjNodes.getNode(i);
-                if(getShortestDistance(target)>getShortestDistance(node)+getDistance(node,target)) {
-                    totalWeight.put(target, getShortestDistance(node)+getDistance(node,target));
+            NodeList<Node> adjNodes = getNeighbours(node);
+            for (int i = 0; i < adjNodes.getSize(); i++) {
+                Node target = adjNodes.getNode(i);
+                if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
+                    totalWeight.put(target, getShortestDistance(node) + getDistance(node, target));
                     prevNodes.put(target, node);
                     unvisitedNodes.add(target);
                 }
             }
         }
 
-        private int getDistance(Node node, Node target)  {
-            int weight=0;
-            Edge edge=new Edge(node,target);
-            int index=this.getIndexOf(edge);
-            if(index!=-1)
-                weight=edges.getEdge(index).getWeight();
+        private int getDistance(Node node, Node target) {
+            int weight = 0;
+            Edge edge = new Edge(node, target);
+            int index = this.getIndexOf(edge);
+            if (index != -1)
+                weight = edges.getEdge(index).getWeight();
             else {
                 throw new RuntimeException("no such edge");
             }
@@ -556,19 +618,18 @@ public class UIDes extends JFrame {
         }
 
         private int getShortestDistance(Node node) {
-            Integer d=totalWeight.get(node);
-            if(d==null) {
+            Integer d = totalWeight.get(node);
+            if (d == null) {
                 return Integer.MAX_VALUE;
-            }
-            else
+            } else
                 return d;
         }
 
         private NodeList<Node> getNeighbours(Node node) {
-            NodeList<Node> temp=new NodeList<>();
-            for(int i=0;i<nodes.getSize();i++) {
-                if(!visitedNodes.contains(nodes.getNode(i))) {
-                    if(this.checkNeighbour(new Edge(node,nodes.getNode(i)))==true){
+            NodeList<Node> temp = new NodeList<>();
+            for (int i = 0; i < nodes.getSize(); i++) {
+                if (!visitedNodes.contains(nodes.getNode(i))) {
+                    if (this.checkNeighbour(new Edge(node, nodes.getNode(i))) == true) {
                         temp.addNode(nodes.getNode(i));
                     }
                 }
@@ -579,45 +640,46 @@ public class UIDes extends JFrame {
         }
 
         public boolean checkNeighbour(Edge e) {
-            int x1,x2,y1,y2,a,b,c,d;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
-            boolean check=false;
-            x1=e.getNode1().getX();
-            x2=e.getNode2().getX();
-            y1=e.getNode1().getY();
-            y2=e.getNode2().getY();
-            for(int i=0;i<edges.getSize();i++) {
-                a=edges.getEdge(i).getNode1().getX();
-                b=edges.getEdge(i).getNode2().getX();
-                c=edges.getEdge(i).getNode1().getY();
-                d=edges.getEdge(i).getNode2().getY();
-                if(a==x1&&b==x2&&c==y1&&d==y2) {
-                    check= true;
+            int x1, x2, y1, y2, a, b, c, d;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
+            boolean check = false;
+            x1 = e.getNode1().getX();
+            x2 = e.getNode2().getX();
+            y1 = e.getNode1().getY();
+            y2 = e.getNode2().getY();
+            for (int i = 0; i < edges.getSize(); i++) {
+                a = edges.getEdge(i).getNode1().getX();
+                b = edges.getEdge(i).getNode2().getX();
+                c = edges.getEdge(i).getNode1().getY();
+                d = edges.getEdge(i).getNode2().getY();
+                if (a == x1 && b == x2 && c == y1 && d == y2) {
+                    check = true;
                     break;
                 }
-                if(a==x2&&b==x1&&c==y2&&d==y1) {
-                    check= true;
+                if (a == x2 && b == x1 && c == y2 && d == y1) {
+                    check = true;
                     break;
                 }
             }
             return check;
         }
+
         public int getIndexOf(Edge e) {
-            int x1,x2,y1,y2,a,b,c,d,index=-1;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
-            x1=e.getNode1().getX();
-            x2=e.getNode2().getX();
-            y1=e.getNode1().getY();
-            y2=e.getNode2().getY();
-            for(int i=0;i<edges.getSize();i++) {
-                a=edges.getEdge(i).getNode1().getX();
-                b=edges.getEdge(i).getNode2().getX();
-                c=edges.getEdge(i).getNode1().getY();
-                d=edges.getEdge(i).getNode2().getY();
-                if(a==x1&&b==x2&&c==y1&&d==y2) {
-                    index=i;
+            int x1, x2, y1, y2, a, b, c, d, index = -1;//a=x1 b=x2 c=y1 d=y2 where abcd are point of edge from edgelist
+            x1 = e.getNode1().getX();
+            x2 = e.getNode2().getX();
+            y1 = e.getNode1().getY();
+            y2 = e.getNode2().getY();
+            for (int i = 0; i < edges.getSize(); i++) {
+                a = edges.getEdge(i).getNode1().getX();
+                b = edges.getEdge(i).getNode2().getX();
+                c = edges.getEdge(i).getNode1().getY();
+                d = edges.getEdge(i).getNode2().getY();
+                if (a == x1 && b == x2 && c == y1 && d == y2) {
+                    index = i;
                     break;
                 }
-                if(a==x2&&b==x1&&c==y2&&d==y1) {
-                    index= i;
+                if (a == x2 && b == x1 && c == y2 && d == y1) {
+                    index = i;
                     break;
                 }
             }
@@ -627,26 +689,26 @@ public class UIDes extends JFrame {
         //get the shortest path from one node to another
         public void getPath(Node a, Node b) {
             nodeDefaultColor();
-            if(!b.isEmpty()) {
-                int x,y;
-                ArrayList<Node> keys=new ArrayList<>(prevNodes.keySet());
-                LinkedList<Node> path=new LinkedList<>();
-                Node start=b;//was b
-                for(int i=0;i<keys.size();i++) {
-                    x=keys.get(i).getX();
-                    y=keys.get(i).getY();
-                    if(x==start.getX()&&y==start.getY()) {
-                        start=keys.get(i);
+            if (!b.isEmpty()) {
+                int x, y;
+                ArrayList<Node> keys = new ArrayList<>(prevNodes.keySet());
+                LinkedList<Node> path = new LinkedList<>();
+                Node start = b;//was b
+                for (int i = 0; i < keys.size(); i++) {
+                    x = keys.get(i).getX();
+                    y = keys.get(i).getY();
+                    if (x == start.getX() && y == start.getY()) {
+                        start = keys.get(i);
                         break;
                     }
                 }
-                if(prevNodes.get(start)==null) {
+                if (prevNodes.get(start) == null) {
                     return;
                 }
                 path.add(start);
-                while(prevNodes.get(start)!=null) {
+                while (prevNodes.get(start) != null) {
                     path.add(prevNodes.get(start));
-                    start=prevNodes.get(start);
+                    start = prevNodes.get(start);
                     start.setColor(Node.parseColor("#9C27B0"));
                 }
                 node2.setColor(Node.parseColor("#9C27B0"));
@@ -654,17 +716,18 @@ public class UIDes extends JFrame {
                 Collections.reverse(path);
 
                 int i;
-                for(i=0;i<path.size()-1;i++) {
-                    int index=this.getIndexOf(new Edge(path.get(i),path.get(i+1)));
+                for (i = 0; i < path.size() - 1; i++) {
+                    int index = this.getIndexOf(new Edge(path.get(i), path.get(i + 1)));
                     listEdge.getEdge(index).setColor(Color.RED);
                 }
                 repaint();
             }
         }
     }
+
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        UIDes g= new UIDes();
+        UIDes g = new UIDes();
 //        g.setContentPane(g.panelMain);
 //        g.setTitle("Demo");
 //        g.setVisible(true);

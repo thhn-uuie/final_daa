@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class BellmanFord {
+
     public List<Integer> bellmanFord(Graph graph, int source, int end) {
         int[] dist = new int[graph.getVertices()];
         Map<Integer, Integer> prev = new HashMap<>();
@@ -21,6 +22,16 @@ public class BellmanFord {
                 }
             }
         }
+
+        for (int u = 0; u < graph.getVertices(); u++) {
+            for (int v = 0; v < graph.getVertices(); v++) {
+                if (graph.edge(u, v) != 0 && dist[u] != Integer.MAX_VALUE
+                        && dist[u] + graph.edge(u,v) < dist[v]) {
+                    System.out.println("Do thi co chu trinh am");
+                }
+            }
+        }
+
 
 
         System.out.print("Đường đi ngắn nhất từ " + source + " đến " + end + " là: ");
